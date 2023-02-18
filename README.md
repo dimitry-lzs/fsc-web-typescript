@@ -1,0 +1,1 @@
+Project was created by using [this React Typescript template](https://github.com/divshekhar/react-typescript-template)
