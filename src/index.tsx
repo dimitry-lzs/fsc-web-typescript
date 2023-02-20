@@ -6,12 +6,21 @@ import './styles.css';
 
 import App from './App';
 import ErrorPage from './Pages/ErrorPage';
+import Result from './Pages/Result';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <App />,
         errorElement: <ErrorPage />,
+    },
+    {
+        path: 'result/:id',
+        element: <Result />,
+        loader: async ({ params }) => {
+            return fetch(`http://www.omdbapi.com/?apikey=247de336&i=${params.id}`)
+        },
+        errorElement: <ErrorPage />
     }
 ]);
 
