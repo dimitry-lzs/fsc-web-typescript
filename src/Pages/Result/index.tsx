@@ -1,4 +1,6 @@
 import { useLoaderData } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+
 import Layout from '../../components/Layout';
 import './Result.less';
 
@@ -37,6 +39,7 @@ interface MovieSearchResult {
 }
 
 function Result() {
+    const navigate = useNavigate();
     const movie = useLoaderData() as MovieSearchResult;
     const { Poster, Title, Year, Genre, Ratings, Plot } = movie;
 
@@ -44,7 +47,10 @@ function Result() {
         <Layout>
             <div className='Result'>
                 <div className='SubHeader'>
-                    <div className='GoBack'>{'<  Back to results'}</div>
+                    <button onClick={() => navigate(-1)} className='GoBack'>
+                        <div className='BackIcon' />
+                        <div className='Back'>{'Back to results'}</div>
+                    </button>
                 </div>
                 <div className='Movie'>
                     <img

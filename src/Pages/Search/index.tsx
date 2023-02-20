@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
+import Pagination from '../../components/Pagination';
 import SearchResult from '../../components/SearchResult';
+import api from '../../services/api';
 import './Search.less';
 
 function Search() {
@@ -8,28 +10,39 @@ function Search() {
     const [error, setError] = useState('');
     const [searchResults, setSearchResults] = useState([]);
 
+    const [pages, setPages] = useState<number[]>([]);
+    const [activePageIndex, setActivePageIndex] = useState(0);
+
+    const setPage = (page: number) => setActivePageIndex(pages.indexOf(page));
+
     useEffect(() => {
         setError('');
+
         if (!searchTerm) return;
+
         const requestDelay = setTimeout(() => {
-            fetch(`http://www.omdbapi.com/?apikey=247de336&s=${searchTerm}`)
-                .then((response) => {
-                    response
-                        .json()
-                        .then((data) => {
-                            if (data.Response === 'True') {
-                                setSearchResults(data.Search);
-                            } else {
-                                setError(data.Error);
-                                setSearchResults([]);
-                            }
-                        })
-                        .catch();
-                })
-                .catch((err) => console.log(err));
+            api.call({
+                s: searchTerm,
+                page: activePageIndex + 1,
+            }).then(({ data }) => {
+                if (data.Response === 'True') {
+                    setSearchResults(data.Search);
+                    setPages(
+                        Array.from(
+                            { length: Math.ceil(data.totalResults / 10) },
+                            (_, i) => i + 1
+                        )
+                    );
+                } else {
+                    setError(data.Error);
+                    setSearchResults([]);
+                    setPages([]);
+                    setActivePageIndex(0);
+                }
+            });
         }, 200);
         return () => clearTimeout(requestDelay);
-    }, [searchTerm]);
+    }, [searchTerm, activePageIndex]);
 
     return (
         <Layout>
@@ -50,6 +63,17 @@ function Search() {
                     {searchResults.map((searchResult, idx) => (
                         <SearchResult searchResult={searchResult} key={idx} />
                     ))}
+
+                    {pages.length > 1 && (
+                        <Pagination
+                            pages={pages.slice(
+                                activePageIndex >= 5 ? activePageIndex - 5 : 0,
+                                activePageIndex + 5
+                            )}
+                            activePage={pages[activePageIndex]}
+                            setPage={setPage}
+                        />
+                    )}
                 </div>
             </div>
         </Layout>
