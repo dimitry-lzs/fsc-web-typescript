@@ -1,0 +1,72 @@
+.MovieSearch {
+    .SearchLabel {
+        text-align: center;
+        padding: 32px;
+        font-size: 36px;
+        letter-spacing: 3px;
+    }
+
+    .Search {
+        background-color: #fff;
+        margin: 0 auto;
+        width: 450px;
+        border: 1px rgb(195, 195, 195) solid;
+        border-radius: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+
+        input {
+            resize: none;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            max-height: 180px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+
+    .SearchResults {
+        .SearchResult {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 5px;
+            width: 512px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+
+            .MoviePoster {
+                padding: 4px;
+                height: 92px;
+                width: auto;
+            }
+
+            .MovieDetails {
+                display: flex;
+                flex-direction: column;
+
+                .MovieTitle {
+                    font-size: 20px;
+                    padding: 4px 8px;
+                }
+
+                .MovieDescription {
+                    padding: 10px 8px;
+                }
+            }
+
+            &:first-child {
+                margin-top: 40px;
+            }
+
+            &:last-child {
+                margin-bottom: 40px;
+            }
+        }
+    }
+}

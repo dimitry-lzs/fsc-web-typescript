@@ -1,8 +1,36 @@
+html {
+    height: 100%;
+}
+
 body {
+    background-color: #F2F2F2;
     margin: 0;
+    height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    height: 100%;
+}
+
+a {
+    all: unset;
+}
+
+a,
+.link {
+    cursor: pointer;
+    color: #46a5ff;
+    transition-property: color;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+}
+
+a:hover,
+.link:hover {
+    color: #bbb;
 }
 
 code {

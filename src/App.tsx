@@ -1,7 +1,10 @@
 import { FC } from 'react';
 
+import './App.less';
+import Search from './Pages/Search';
+
 const App: FC = () => {
-    return <div className='App'>FSC</div>;
+    return <Search />;
 };
 
 export default App;
