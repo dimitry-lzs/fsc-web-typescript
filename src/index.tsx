@@ -18,10 +18,12 @@ const router = createBrowserRouter([
         path: 'result/:id',
         element: <Result />,
         loader: async ({ params }) => {
-            return fetch(`http://www.omdbapi.com/?apikey=247de336&i=${params.id}`)
+            return fetch(
+                `http://www.omdbapi.com/?apikey=247de336&i=${params.id}`
+            );
         },
-        errorElement: <ErrorPage />
-    }
+        errorElement: <ErrorPage />,
+    },
 ]);
 
 const root = ReactDOM.createRoot(
