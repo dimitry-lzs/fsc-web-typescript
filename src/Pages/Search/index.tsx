@@ -10,13 +10,13 @@ function Search() {
 
                 <div className='Search'>
                     <input placeholder='Search...' />
+                    <button className='SearchButton' />
                 </div>
 
                 <div className='SearchResults'>
                     <SearchResult />
                     <SearchResult />
                 </div>
-
             </div>
         </Layout>
     );
