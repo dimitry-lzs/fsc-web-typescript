@@ -7,6 +7,7 @@ import './styles.css';
 import App from './App';
 import ErrorPage from './Pages/ErrorPage';
 import Result from './Pages/Result';
+import api from './services/api';
 
 const router = createBrowserRouter([
     {
@@ -18,9 +19,7 @@ const router = createBrowserRouter([
         path: 'result/:id',
         element: <Result />,
         loader: async ({ params }) => {
-            return fetch(
-                `http://www.omdbapi.com/?apikey=247de336&i=${params.id}`
-            );
+            return (await api.call({ i: params.id, plot: 'full' })).data;
         },
         errorElement: <ErrorPage />,
     },
