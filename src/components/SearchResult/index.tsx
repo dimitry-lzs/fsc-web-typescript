@@ -1,13 +1,30 @@
+import { Link } from 'react-router-dom';
 import './SearchResult.less';
 
-function SearchResult() {
+interface SearchResult {
+    Title: string;
+    Year: string;
+    imdbID: string;
+    Type: string;
+    Poster: string;
+}
+
+type SearchResultProps = {
+    searchResult: SearchResult;
+};
+
+function SearchResult(props: SearchResultProps) {
+    const { searchResult } = props;
+    const { Poster, Title, Year, imdbID } = searchResult;
+
     return (
         <div className='SearchResult'>
-            <img src='https://m.media-amazon.com/images/M/MV5BMDdmZGU3NDQtY2E5My00ZTliLWIzOTUtMTY4ZGI1YjdiNjk3XkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg' className='MoviePoster' />
+            <img src={Poster} alt={`${Title} poster`} className='MoviePoster' />
             <div className='MovieDetails'>
-                <div className='MovieTitle'>Titanic</div>
-                <div className='MovieYear'>1997</div>
-                <div className='MovieDescription'>A Great Movie about boat that sunk in the middle of the Atlantic Ocean</div>
+                <Link to={`/result/${imdbID}`}>
+                    <div className='MovieTitle'>{Title}</div>
+                </Link>
+                <div className='MovieYear'>{Year}</div>
             </div>
         </div>
     );
