@@ -7,13 +7,6 @@ module.exports = {
         hot: true,
         open: true,
         historyApiFallback: true,
-        proxy: [
-            {
-                context: ['/api'],
-                target: 'http://localhost:9898',
-                changeOrigin: true,
-            },
-        ],
     },
     devtool: 'cheap-module-source-map',
     plugins: [
