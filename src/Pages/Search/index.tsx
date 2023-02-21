@@ -1,48 +1,28 @@
-import { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { useEffect } from 'react';
 import Layout from '../../components/Layout';
 import Pagination from '../../components/Pagination';
 import SearchResult from '../../components/SearchResult';
-import api from '../../services/api';
+import { results } from '../../stores';
 import './Search.less';
 
 function Search() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [error, setError] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-
-    const [pages, setPages] = useState<number[]>([]);
-    const [activePageIndex, setActivePageIndex] = useState(0);
-
-    const setPage = (page: number) => setActivePageIndex(pages.indexOf(page));
+    const {
+        searchTerm,
+        setSearchTerm,
+        searchResults,
+        pages,
+        setPage,
+        currentPageIdx,
+        searchError,
+    } = results;
 
     useEffect(() => {
-        setError('');
-
-        if (!searchTerm) return;
-
         const requestDelay = setTimeout(() => {
-            api.call({
-                s: searchTerm,
-                page: activePageIndex + 1,
-            }).then(({ data }) => {
-                if (data.Response === 'True') {
-                    setSearchResults(data.Search);
-                    setPages(
-                        Array.from(
-                            { length: Math.ceil(data.totalResults / 10) },
-                            (_, i) => i + 1
-                        )
-                    );
-                } else {
-                    setError(data.Error);
-                    setSearchResults([]);
-                    setPages([]);
-                    setActivePageIndex(0);
-                }
-            });
+            results.search(searchTerm);
         }, 200);
         return () => clearTimeout(requestDelay);
-    }, [searchTerm, activePageIndex]);
+    }, [searchTerm, currentPageIdx]);
 
     return (
         <Layout>
@@ -51,6 +31,7 @@ function Search() {
 
                 <div className='Search'>
                     <input
+                        value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder='Search...'
                     />
@@ -58,7 +39,9 @@ function Search() {
                 </div>
 
                 <div className='SearchResults'>
-                    {error && <div className='SearchError'>{error}</div>}
+                    {searchError && (
+                        <div className='SearchError'>{searchError}</div>
+                    )}
 
                     {searchResults.map((searchResult, idx) => (
                         <SearchResult searchResult={searchResult} key={idx} />
@@ -67,10 +50,10 @@ function Search() {
                     {pages.length > 1 && (
                         <Pagination
                             pages={pages.slice(
-                                activePageIndex >= 5 ? activePageIndex - 5 : 0,
-                                activePageIndex + 5
+                                currentPageIdx >= 5 ? currentPageIdx - 5 : 0,
+                                currentPageIdx + 5
                             )}
-                            activePage={pages[activePageIndex]}
+                            activePage={pages[currentPageIdx]}
                             setPage={setPage}
                         />
                     )}
@@ -80,4 +63,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default observer(Search);
