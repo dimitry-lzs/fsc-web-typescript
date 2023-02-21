@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
-import { useEffect } from 'react';
 import Layout from '../../components/Layout';
+import Loader from '../../components/Loader';
 import Pagination from '../../components/Pagination';
 import SearchResult from '../../components/SearchResult';
 import { results } from '../../stores';
@@ -15,18 +15,13 @@ function Search() {
         setPage,
         currentPageIdx,
         searchError,
+        loading,
     } = results;
-
-    useEffect(() => {
-        const requestDelay = setTimeout(() => {
-            results.search(searchTerm);
-        }, 200);
-        return () => clearTimeout(requestDelay);
-    }, [searchTerm, currentPageIdx]);
 
     return (
         <Layout>
             <div className='MovieSearch'>
+                {loading ? <Loader /> : null}
                 <div className='SearchLabel'>Search movie</div>
 
                 <div className='Search'>

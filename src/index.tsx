@@ -7,7 +7,7 @@ import './styles.css';
 import App from './App';
 import ErrorPage from './Pages/ErrorPage';
 import Result from './Pages/Result';
-import api from './services/api';
+import { results } from './stores';
 
 const router = createBrowserRouter([
     {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
         path: 'result/:id',
         element: <Result />,
         loader: async ({ params }) => {
-            return (await api.call({ i: params.id, plot: 'full' })).data;
+            return await results.getResult(params.id);
         },
         errorElement: <ErrorPage />,
     },

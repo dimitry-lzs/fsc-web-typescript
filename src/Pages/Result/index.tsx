@@ -79,3 +79,4 @@ function Result() {
 }
 
 export default Result;
+export type { MovieSearchResult };
