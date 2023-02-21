@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
+
 import './SearchResult.less';
 
 interface SearchResult {
@@ -14,19 +15,22 @@ type SearchResultProps = {
 };
 
 function SearchResult(props: SearchResultProps) {
+    const navigate = useNavigate();
+
     const { searchResult } = props;
     const { Poster, Title, Year, imdbID } = searchResult;
 
     return (
-        <div className='SearchResult'>
+        <button
+            onClick={() => navigate(`/result/${imdbID}`)}
+            className='SearchResult'
+        >
             <img src={Poster} alt={`${Title} poster`} className='MoviePoster' />
             <div className='MovieDetails'>
-                <Link to={`/result/${imdbID}`}>
-                    <div className='MovieTitle'>{Title}</div>
-                </Link>
+                <div className='MovieTitle'>{Title}</div>
                 <div className='MovieYear'>{Year}</div>
             </div>
-        </div>
+        </button>
     );
 }
 
